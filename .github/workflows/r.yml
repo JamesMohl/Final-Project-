@@ -1,0 +1,9 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# See https://github.com/r-lib/actions/tree/master/examples#readme for
+# additional example workflows available for the R community.
+
+Description: This R-package will be responsible for importing data on the hectares of forestation and deforestation in South America. Also import of geolocation services to topographically and 3-dimensionally view data.
