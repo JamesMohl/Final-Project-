@@ -1,0 +1,141 @@
+---
+title: "R Markdown Final"
+author: "Mohler"
+date: "2024-04-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+---
+
+---
+```{r}
+#This part of my file will be dedicated to importing the data, the library parmeters, and extraneous information I will want to include before beginning my code. 
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(actuar)
+library(ggmap)
+
+
+```
+
+## Including Plots
+
+```
+```{r}
+#There are so many ways to import data since this relies on excel and wbe applications so I am including a series of ways in which a user kight prefer to import the data or different sets.
+deforestation_data <- function() {
+  url <- "https://www.globalforestwatch.org/dashboards/country/BRA/?category=forest-change&location=WyJjb3VudHJ5IiwiQlJBIl0%3D"
+  
+  # Read HTML content from the webpage
+  webpage <- read_html(url)
+  
+  # Extract table data
+  table_data <- html_table(html_nodes(webpage, "table"))[[1]]
+  
+  # Clean data if necessary
+  
+  return(table_data)
+}
+
+# Fetch deforestation data
+deforestation_data <- fetch_deforestation_data()
+
+
+# Manually extract information from the document
+
+# Dataset Name
+dataset_name <- "Global Forest Watch"
+
+# Description
+description <- "Global Forest Watch (GFW) is an online platform that provides data and tools for monitoring forests worldwide. It offers a variety of datasets related to forest cover, deforestation, forest fires, and other forest-related metrics."
+
+# Print extracted information
+cat("Dataset Name:", dataset_name, "\n")
+cat("Description:", description, "\n")
+cat("Data Access:", data_access, "\n")
+cat("Data Processing:", data_processing, "\n")
+cat("Metadata:", metadata, "\n")
+cat("Usage Policies:", usage_policies, "\n")
+
+# URL of the data download link
+download_url <- "https://storage.googleapis.com/earthenginepartners-hansen/GFC-2023-v1.11/download.html"
+
+# Destination file path where you want to save the downloaded file
+destination_path <- "GFC-2023-v1.11.zip"
+
+# Download the file
+download.file(download_url, r.data, mode = "wb")
+
+# Check if the download was successful
+if (file.exists(mohle)) {
+  cat("Download successful. File saved as:", r.data, "\n")
+} else {
+  cat("Download failed.\n")
+}
+urlToRead <- "https://glad.earthengine.app/view/global-forest-change"
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+---
+
+
+```
+```{r}
+#Here is where I'll likely start coding the heart of my package. The functions here will be primarily focused on establishing relationships and information about the topography and raw data. I'll have to incorporate for() loops, parameters, and maybe even shinyApp to create an interactive feature. 
+dataframe <- read.csv(url(urlToRead))
+forest_map <- ggplot(dataframe, aes(x = longitude, y = latitude)) +
+  geom_point(aes(size = value)) + 
+  labs(title = "Map", x = "Longitude", y = "Latitude") + labs
+  theme_minimal()
+map_data <- st_read("c:/users/mohle/Downloads/Primary Forest loss(1). zip")
+
+set.seed(123)
+dates <- seq(as.Date("2000-01-01"), as.Date("2012-12-31"), by = "1 day")
+time_series_data <- data.frame(
+  date = rep(dates, each = 1),
+  lon = runif(length(dates), min = -70, max = -30),
+  lat = runif(length(dates), min = -20, max = 5),
+  value = rnorm(length(dates), mean = 50, sd = 20)
+)
+
+# Convert time series data to sf object
+sf_time_series_data <- st_as_sf(time_series_data, coords = c("lon", "lat"), crs = 4326)
+
+# Plot time series data on map
+ggplot() +
+  geom_sf(data = dataframe) +  # Plot map data
+  geom_point(data = sf_time_series_data, aes(x = lon, y = lat, color = value)) +
+  scale_color_gradient(low = "blue", high = "red") +
+  theme_void()
+
+#This visualization will plot data points to create a comparative view of hectare growth/loss over time. The option to change the start and end dates will be a component so that users can compare different periods of time. The code is general for now, users will be the ones inputting more precise measures for comparison.
+set.seed(123)
+dates <- seq(as.Date("2020-01-01"), as.Date("2024-12-31"), by = "1 year")
+region1 <- rnorm(length(dates), mean = 1000, sd = 200)
+region2 <- rnorm(length(dates), mean = 800, sd = 150)
+region3 <- rnorm(length(dates), mean = 1200, sd = 250)
+deforestation_data <- data.frame(date = rep(dates, 3),
+                                 value = c(region1, region2, region3),
+                                 region = rep(c("Region 1", "Region 2", "Region 3"), each = length(dates)))
+
+# Convert date to year for better visualization
+deforestation_data$year <- as.numeric(format(deforestation_data$date, "%Y"))
+
+# Plot comparative plot over time
+ggplot(deforestation_data, aes(x = year, y = value, color = region)) +
+  geom_line() +
+  labs(x = "Year", y = "Deforestation (Hectares)", color = "Region") +
+  theme_minimal()
+```
+
