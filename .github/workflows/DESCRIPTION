@@ -1,0 +1,11 @@
+Package: GlobalForestChange
+Type: Package
+Title: Global Hectare Change 
+Version: 1.0
+Date: 4-27-2024
+Author: James Mohler
+Maintainer: James Mohler <jamesmohler@usf.edu>
+License: GPL
+RoxygenNote: 1.0.0
+
+Description: This R-package will be responsible for importing data on the hectares of forestation and deforestation across global parameters. Also import of geolocation services to topographically and 3-dimensionally view data.
